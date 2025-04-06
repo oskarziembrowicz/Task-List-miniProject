@@ -2,6 +2,7 @@
 
 use App\Models\Task as ModelsTask;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
@@ -29,11 +30,17 @@ Route::get('/tasks', function () {
     ]);
 })->name("tasks.index");
 
+Route::view("/tasks/create", "create")->name("tasks.create");
+
 Route::get("/tasks/{id}", function ($id)  {
     return view("show", [
         "task" => ModelsTask::findOrFail($id)
     ]);
 })->name("tasks.show");
+
+Route::post("/tasks", function(Request $request) {
+    dd($request->all());
+})->name("tasks.store");
 
 Route::fallback(function () {
     return "Still got somewhere!";
